@@ -1,0 +1,10 @@
+Statistique,log_price,price ($)
+Moyenne,4.7685,149.29
+Écart-type,0.6586,130.96
+Minimum,2.3026,10.00
+25%,4.3175,75.00
+Médiane (50%),4.7449,115.00
+75%,5.1874,179.00
+Maximum,7.6004,1999.00
+Asymétrie (Skewness),0.3618,4.02
+Aplatissement (Kurtosis),0.4388,28.06

@@ -2,7 +2,7 @@ import pandas as pd
 
 selected_columns = [
     # Id et prix
-    'id', # 'log_price', pour le fichier train
+    'id',  'log_price', #pour le fichier train
     # Appartement
     'property_type', 'room_type', 'accommodates', 'bedrooms', 
     'beds','bed_type', 'bathrooms', 'amenities',
@@ -28,7 +28,7 @@ def select_columns(input_file_path, output_file_path, columns_to_keep):
         return None
 
 if __name__ == "__main__":
-    input_file = "Data/Original/airbnb_test.csv"  # CSV original
-    output_file = "Data/Clean/test_partial.csv"  # CSV nettoyé
+    input_file = "Data/Original/airbnb_train.csv"  # CSV original
+    output_file = "Data/Clean/train_partial.csv"  # CSV nettoyé
     
     df_cleaned = select_columns(input_file, output_file, selected_columns)
