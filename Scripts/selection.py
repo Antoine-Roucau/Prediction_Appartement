@@ -5,7 +5,7 @@ selected_columns = [
     'id', # 'log_price', pour le fichier train
     # Appartement
     'property_type', 'room_type', 'accommodates', 'bedrooms', 
-    'beds', 'bathrooms', 'amenities',
+    'beds','bed_type', 'bathrooms', 'amenities',
     # Loc
     'city', 'neighbourhood', 'latitude', 'longitude',
     # Règles et politiques
