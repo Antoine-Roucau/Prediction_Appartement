@@ -1,0 +1,29 @@
+=== RÉSUMÉ DES OBSERVATIONS SUR LES CARACTÉRISTIQUES PHYSIQUES ===
+
+Corrélation avec log_price (caractéristiques numériques):
+- price: 0.8621
+- price_per_bedroom: 0.7334
+- accommodates: 0.5803
+- price_per_person: 0.5313
+- bedrooms: 0.4867
+- beds: 0.4512
+- premium_score: 0.3551
+- bathrooms: 0.3472
+- amenities_count: 0.1637
+
+Impact du type de propriété (log_price moyen):
+- Condominium: 4.9641
+- Loft: 4.9514
+- Townhouse: 4.8226
+
+Impact du type de chambre (log_price moyen):
+- Entire home/apt: 5.1179
+- Private room: 4.3106
+- Shared room: 3.8183
+
+Aménités avec le plus grand impact sur le prix:
+- Family/kid friendly: +57.66%
+- Cable TV: +49.95%
+- Wireless Internet: +29.92%
+- Hair dryer: +22.80%
+- 24-hour check-in: +22.41%
