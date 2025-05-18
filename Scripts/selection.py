@@ -32,3 +32,9 @@ if __name__ == "__main__":
     output_file = "Data/Clean/train_partial.csv"  # CSV nettoyé
     
     df_cleaned = select_columns(input_file, output_file, selected_columns)
+
+def select_coef(selected_columns,coefficients):
+    selected_coef = {}
+    for col, coef in zip(selected_columns, coefficients):
+        selected_coef[col] = coef
+    return selected_coef
