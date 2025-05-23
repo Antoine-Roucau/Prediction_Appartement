@@ -1,3 +1,10 @@
+from sklearn.linear_model import Ridge, ElasticNet
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.svm import SVR
+from sklearn.neural_network import MLPRegressor
+from xgboost import XGBRegressor
+import pandas as pd
+
 def rechercheCoef(CSV_entrainement, model, variables=None, target='log_price', plot=False):
     df = pd.read_csv(CSV_entrainement)
 
