@@ -7516,14 +7516,288 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Analyse-pr%C3%A9dictive-des-prix-de-location-Airbnb">Analyse prédictive des prix de location Airbnb<a class="anchor-link" href="#Analyse-pr%C3%A9dictive-des-prix-de-location-Airbnb">¶</a></h1><h2 id="1.-Contexte-du-projet">1. Contexte du projet<a class="anchor-link" href="#1.-Contexte-du-projet">¶</a></h2><p>Dans un marché immobilier de plus en plus compétitif, comprendre les facteurs qui influencent le prix des locations à court terme est devenu essentiel tant pour les propriétaires que pour les plateformes comme Airbnb. Ce projet vise à analyser en profondeur un ensemble de données de propriétés Airbnb pour identifier les déterminants du prix et développer un modèle prédictif fiable.</p>
-<p>Les objectifs principaux de cette étude sont :</p>
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>Analyse prédictive Airbnb</title>
+<style>
+        /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+    </style>
+</head>
+<body>
+<h1>Analyse prédictive des prix de location Airbnb</h1>
+<h2>Roucau Antoine et Mottier Maxime</h2>
+<div class="section-container">
+<h2>1. Contexte du projet</h2>
+<div class="content-box">
+<p>Dans un marché immobilier de plus en plus compétitif, comprendre les facteurs qui influencent le prix des locations à court terme est devenu essentiel tant pour les propriétaires que pour les plateformes comme Airbnb.</p>
+<div class="key-points">
+<strong>Objectifs principaux :</strong>
 <ul>
 <li>Comprendre les variables qui influencent significativement le prix des locations</li>
 <li>Quantifier l'impact des différentes caractéristiques (localisation, type de propriété, aménités, etc.)</li>
 <li>Développer un modèle capable de prédire avec précision le prix d'une location en fonction de ses attributs</li>
 </ul>
-<p>Cette analyse s'appuie sur un jeu de données contenant des informations détaillées sur 15 601 propriétés (22 235 orginellement) Airbnb.</p>
+</div>
+<p>Cette analyse s'appuie sur un jeu de données nétoyée de toute valeurs nulle contenant des informations détaillées sur <strong>15 601 propriétés</strong> (22 235 originellement) Airbnb.</p>
+</div>
+</div>
+</body>
+</html>
 </div>
 </div>
 </div>
@@ -7534,58 +7808,351 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2.-Description-des-donn%C3%A9es-d'entrainement">2. Description des données d'entrainement<a class="anchor-link" href="#2.-Description-des-donn%C3%A9es-d'entrainement">¶</a></h2><h3 id="2.1-Source-et-structure-des-donn%C3%A9es">2.1 Source et structure des données<a class="anchor-link" href="#2.1-Source-et-structure-des-donn%C3%A9es">¶</a></h3><p>Le jeu de données utilisé provient du projet d'Analyse de données d'année 3 ESILV semestre 2. Après nettoyage, nous disposons de 15 601 propriétés avec 21 variables. Voici un aperçu des principales variables retenues pour l'analyse :</p>
-<table>
-<thead>
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Description des données d'entraînement</title>
+<style>
+        /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+    </style>
+</head>
+<body>
+<div class="section-container">
+<h2>2. Description des données d'entraînement</h2>
+<div class="content-box">
+<h4>2.1 Source et structure des données</h4>
+<div class="two-columns">
+<div class="column">
+<p>Le jeu de données utilisé provient du projet d'Analyse de données d'année 3 ESILV semestre 2. Après nettoyage, nous disposons de 15 601 propriétés avec 21 variables pertinentes pour notre analyse prédictive.</p>
+<p>Ces variables peuvent être regroupées en plusieurs catégories fonctionnelles reflétant différents aspects des propriétés Airbnb :</p>
+</div>
+<div class="column">
+<div class="highlight-box">
+<h5>Chiffres clés</h5>
+<ul>
+<li><strong>15 601</strong> propriétés après nettoyage</li>
+<li><strong>21</strong> variables explicatives</li>
+<li><strong>7</strong> catégories fonctionnelles</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<table class="data-table">
 <tr>
 <th>Catégorie</th>
 <th>Variables</th>
 </tr>
-</thead>
-<tbody>
 <tr>
-<td>Identifiants</td>
+<td><strong>Identifiants</strong></td>
 <td>id</td>
 </tr>
 <tr>
-<td>Variable Cible</td>
+<td><strong>Variable Cible</strong></td>
 <td>log_price</td>
 </tr>
 <tr>
-<td>Caractéristiques physiques</td>
+<td><strong>Caractéristiques physiques</strong></td>
 <td>property_type, room_type, accommodates, bedrooms, beds, bed_type, bathrooms, amenities</td>
 </tr>
 <tr>
-<td>Localisation</td>
+<td><strong>Localisation</strong></td>
 <td>city, neighbourhood, latitude, longitude</td>
 </tr>
 <tr>
-<td>Règles et politiques</td>
+<td><strong>Règles et politiques</strong></td>
 <td>cancellation_policy, cleaning_fee, instant_bookable</td>
 </tr>
 <tr>
-<td>Information sur l'hôte</td>
+<td><strong>Information sur l'hôte</strong></td>
 <td>host_since, host_identity_verified</td>
 </tr>
 <tr>
-<td>Réputation</td>
+<td><strong>Réputation</strong></td>
 <td>number_of_reviews, review_scores_rating</td>
 </tr>
-</tbody>
 </table>
-<h3 id="2.2-Nettoyage-et-pr%C3%A9traitement-des-donn%C3%A9es">2.2 Nettoyage et prétraitement des données<a class="anchor-link" href="#2.2-Nettoyage-et-pr%C3%A9traitement-des-donn%C3%A9es">¶</a></h3><p>Plusieurs étapes de nettoyage ont été nécessaires pour préparer les données à l'analyse :</p>
+</div>
+<div class="content-box">
+<h4>2.2 Nettoyage et prétraitement des données</h4>
+<div class="two-columns">
+<div class="column">
+<h5>Variables exclues</h5>
+<p>Nous avons délibérément exclu certaines variables de notre analyse :</p>
 <ul>
-<li><p>Sélection des variables pertinentes pour la prédiction de prix</p>
-<p>Nous avons décider délibérement de suprimmer 'description' de notre étude car bien que nous savons qu'elle a une influence importante sur le prix du bien nous savons pas comment traite de facon efficace cette variable dus a sa complexite et sa richesse d'information.
-Pour ce qui est 'first_review', 'host_has_profile_pic', 'host_response_rate', 'last_review', 'name' et 'zipcode' nous considérons qu'ils  n'apportent que peu d'utilité pour notre prediction.</p>
-</li>
-<li><p>Élimination des observations avec valeurs manquantes (15 601 propriétés conservées)</p>
-</li>
-<li><p>Standardisation des types de propriétés (regroupement des catégories rares en "Other")</p>
-</li>
-<li><p>Extraction du nombre d'aménités comme caractéristique additionnelle</p>
-</li>
+<li><strong>description</strong> : Influence potentiellement importante mais difficile à traiter efficacement</li>
+<li><strong>first_review</strong>, <strong>host_has_profile_pic</strong>, <strong>host_response_rate</strong>, <strong>last_review</strong>, <strong>name</strong>, <strong>zipcode</strong> : Impact limité sur notre objectif de prédiction</li>
 </ul>
+</div>
+<div class="column">
+<h5>Étapes de nettoyage</h5>
+<ol>
+<li>Sélection des 21 variables explicatives les plus pertinentes</li>
+<li>Élimination des observations avec valeurs manquantes (15 601 propriétés conservées sur 22 235)</li>
+<li>Standardisation des types de propriétés (regroupement des catégories rares en "Other")</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
 </div>
 </div>
 </div>
@@ -7596,19 +8163,327 @@ Pour ce qui est 'first_review', 'host_has_profile_pic', 'host_response_rate', 'l
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="3.-M%C3%A9thodologie-d'analyse">3. Méthodologie d'analyse<a class="anchor-link" href="#3.-M%C3%A9thodologie-d'analyse">¶</a></h2><h3 id="3.1-Approche-g%C3%A9n%C3%A9rale">3.1 Approche générale<a class="anchor-link" href="#3.1-Approche-g%C3%A9n%C3%A9rale">¶</a></h3><p>Notre approche d'analyse se décompose en plusieurs étapes :</p>
-<ol>
-<li>Analyse exploratoire des données pour comprendre les relations entre variables</li>
-<li>Analyse bivariée entre chaque variable explicative et le prix</li>
-<li>Analyse multivariée pour détecter les interactions entre variables</li>
-<li>Modélisation prédictive et évaluation des performances</li>
-</ol>
-<h3 id="3.2-Outils-et-techniques-utilis%C3%A9s">3.2 Outils et techniques utilisés<a class="anchor-link" href="#3.2-Outils-et-techniques-utilis%C3%A9s">¶</a></h3><p>Pour cette étude, nous avons utilisé les bibliothèques Python suivantes :</p>
-<ul>
-<li>Pandas et NumPy pour la manipulation des données</li>
-<li>Matplotlib et Seaborn pour la visualisation</li>
-<li>Scikit-learn pour la modélisation et la prédiction</li>
+<style>
+    /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+</style>
+<div class="section-container">
+<h2>3. Méthodologie d'analyse</h2>
+<div class="content-box">
+<h4>3.1 Approche générale</h4>
+<div class="two-columns">
+<div class="column">
+<p>Notre méthodologie suit une approche progressive, permettant d'explorer les données en profondeur avant de développer notre modèle prédictif :</p>
+<div class="key-points">
+<div style="display:flex; margin-bottom:15px; align-items:center;">
+<div style="width:40px; height:40px; border-radius:50%; background-color:#FF5A5F; color:white; display:flex; justify-content:center; align-items:center; font-weight:bold;">1</div>
+<div style="margin-left:15px;">
+<p style="margin:0;"><strong>Analyse exploratoire des données</strong></p>
+<p style="margin:5px 0 0 0; font-size:0.9em; color:#555;">Compréhension de la distribution des variables et identification des tendances générales</p>
+</div>
+</div>
+<div style="display:flex; margin-bottom:15px; align-items:center;">
+<div style="width:40px; height:40px; border-radius:50%; background-color:#00A699; color:white; display:flex; justify-content:center; align-items:center; font-weight:bold;">2</div>
+<div style="margin-left:15px;">
+<p style="margin:0;"><strong>Prétraitement</strong></p>
+<p style="margin:5px 0 0 0; font-size:0.9em; color:#555;">Mapping, encodage</p>
+</div>
+</div>
+<div style="display:flex; margin-bottom:15px; align-items:center;">
+<div style="width:40px; height:40px; border-radius:50%; background-color:#FC642D; color:white; display:flex; justify-content:center; align-items:center; font-weight:bold;">3</div>
+<div style="margin-left:15px;">
+<p style="margin:0;"><strong>Selection des données et création des nouvelles variables</strong></p>
+<p style="margin:5px 0 0 0; font-size:0.9em; color:#555;">Détection des variabless</p>
+</div>
+</div>
+<div style="display:flex; align-items:center;">
+<div style="width:40px; height:40px; border-radius:50%; background-color:#484848; color:white; display:flex; justify-content:center; align-items:center; font-weight:bold;">4</div>
+<div style="margin-left:15px;">
+<p style="margin:0;"><strong>Modélisation prédictive</strong></p>
+<p style="margin:5px 0 0 0; font-size:0.9em; color:#555;">Développement et évaluation de modèles</p>
+</div>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="highlight-box">
+<h5>3.2 Outils et techniques utilisés</h5>
+<div style="margin-bottom:15px;">
+<h6 style="margin:10px 0; color:#484848;">Manipulation des données</h6>
+<ul style="margin-top:5px; padding-left:20px;">
+<li><strong>Pandas</strong> : Traitement et nettoyage des données</li>
+<li><strong>NumPy</strong> : Calculs numériques avancés</li>
 </ul>
+</div>
+<div style="margin-bottom:15px;">
+<h6 style="margin:10px 0; color:#484848;">Visualisation</h6>
+<ul style="margin-top:5px; padding-left:20px;">
+<li><strong>Matplotlib</strong> : Visualisations personnalisées</li>
+<li><strong>Seaborn</strong> : Graphiques statistiques avancés</li>
+</ul>
+</div>
+<div>
+<h6 style="margin:10px 0; color:#484848;">Modélisation</h6>
+<ul style="margin-top:5px; padding-left:20px;">
+<li><strong>Scikit-learn</strong> : Algorithmes de régression et métriques d'évaluation</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -7619,31 +8494,305 @@ Pour ce qui est 'first_review', 'host_has_profile_pic', 'host_response_rate', 'l
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="4.-Analyse-exploratoire-des-donn%C3%A9es-d'entrainement">4. Analyse exploratoire des données d'entrainement<a class="anchor-link" href="#4.-Analyse-exploratoire-des-donn%C3%A9es-d'entrainement">¶</a></h2><h2 id="4.1-Analyse-de-la-distribution-des-prix">4.1 Analyse de la distribution des prix<a class="anchor-link" href="#4.1-Analyse-de-la-distribution-des-prix">¶</a></h2><h3 id="Comparaison-des-distributions">Comparaison des distributions<a class="anchor-link" href="#Comparaison-des-distributions">¶</a></h3><p>La mise en parallèle des densités de <code>price</code> et <code>log_price</code> montre l'effet de la transformation logarithmique :</p>
-<ul>
-<li>La distribution des prix originaux est fortement asymétrique (asymétrie de 4.02) avec une longue queue à droite et de nombreuses valeurs extrêmes</li>
-<li>La distribution logarithmique présente une forme beaucoup plus proche d'une distribution normale (asymétrie réduit à 0.36)</li>
-</ul>
-<div style="display: flex; justify-content: center;">
-<div style="flex: 1; padding: 5px;">
-<img alt="No description has been provided for this image" src="Data\Visual\plot\Mono\prix\histogramme_price.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 1:</b> Distribution du prix réel</p>
+<style>
+    /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+</style>
+<div class="section-container">
+<h2>4. Analyse exploratoire des données d'entraînement</h2>
+<div class="content-box">
+<h4>4.1 Analyse de la distribution des prix</h4>
+<div class="content-box">
+<h4>Comparaison des distributions</h4>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Histogramme des prix bruts" src="Data/Visual/plot/Mono/prix/histogramme_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 1:</strong> La distribution des prix bruts présente une <strong>forte asymétrie positive</strong> (coefficient de 4.02) avec une longue queue à droite, rendant difficile l'application de modèles paramétriques.</p>
 </div>
-<div style="flex: 1; padding: 5px;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Mono/prix/histogramme_log_price.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 2:</b> Distribution de log_price</p>
 </div>
 </div>
-<h3 id="Statistiques-descriptives">Statistiques descriptives<a class="anchor-link" href="#Statistiques-descriptives">¶</a></h3><table style="float: left; margin-right: 30px; width: 45%">
+<div class="column">
+<div class="figure-container">
+<img alt="Histogramme des prix logarithmiques" src="Data/Visual/plot/Mono/prix/histogramme_log_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 2:</strong> La transformation logarithmique produit une distribution <strong>quasi-normale</strong> (asymétrie réduite à 0.36), bien plus adaptée à la modélisation statistique.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<h4>Statistiques descriptives et observations clés</h4>
+<div class="two-columns">
+<div class="column">
+<table class="data-table">
 <tr>
 <th>Statistique</th>
 <th>log_price</th>
-<th>price</th>
+<th>price ($)</th>
 </tr>
 <tr>
 <td>Moyenne</td>
 <td>4.7685</td>
 <td>149.29</td>
+</tr>
+<tr>
+<td>Médiane</td>
+<td>4.7449</td>
+<td>115.00</td>
 </tr>
 <tr>
 <td>Écart-type</td>
@@ -7656,17 +8805,12 @@ Pour ce qui est 'first_review', 'host_has_profile_pic', 'host_response_rate', 'l
 <td>10.00</td>
 </tr>
 <tr>
-<td>25%</td>
+<td>25ème percentile</td>
 <td>4.3175</td>
 <td>75.00</td>
 </tr>
 <tr>
-<td>Médiane (50%)</td>
-<td>4.7449</td>
-<td>115.00</td>
-</tr>
-<tr>
-<td>75%</td>
+<td>75ème percentile</td>
 <td>5.1874</td>
 <td>179.00</td>
 </tr>
@@ -7677,34 +8821,463 @@ Pour ce qui est 'first_review', 'host_has_profile_pic', 'host_response_rate', 'l
 </tr>
 <tr>
 <td>Asymétrie</td>
-<td>0.3618</td>
-<td>4.02</td>
+<td><strong>0.3618</strong></td>
+<td><strong>4.02</strong></td>
 </tr>
 <tr>
 <td>Aplatissement</td>
-<td>0.4388</td>
-<td>28.06</td>
+<td><strong>0.4388</strong></td>
+<td><strong>28.06</strong></td>
 </tr>
 </table>
-<div style="float: left; width: 50%;">
-L'écart important entre la moyenne (149.29) et la médiane (115.00) des prix confirme l'asymétrie de la distribution originale. La valeur élevée de l'aplatissement (28.06) indique une distribution avec de nombreuses valeurs extrêmes.
 </div>
-<div style="float: left; width: 50%;padding-top : 20px">
-La transformation logarithmique (log_price) normalise efficacement cette distribution, comme en témoignent les valeurs réduites d'asymétrie (0.36) et d'aplatissement (0.44) ainsi que l'écart entre la moyenne et la médiane (0.0236), rendant les données plus adaptées aux modèles statistiques paramétriques.
+<div class="column">
+<div class="highlight-box">
+<h5>Distorsion des prix bruts</h5>
+<ul>
+<li>Écart important entre moyenne ($149) et médiane ($115), confirmant l'asymétrie</li>
+<li>Aplatissement très élevé (28.06) indiquant de nombreuses valeurs extrêmes</li>
+<li>Rapport max/min de 200:1 (prix entre $10 et $1999)</li>
+</ul>
 </div>
-<div style="clear: both;"></div>
-<h3 id="Analyse-de-la-normalit%C3%A9">Analyse de la normalité<a class="anchor-link" href="#Analyse-de-la-normalit%C3%A9">¶</a></h3><p>Les QQ plots permettent d'évaluer visuellement si nos données suivent une distribution normale en comparant les quantiles empiriques aux quantiles théoriques d'une loi normale.</p>
-<div style="display: flex; justify-content: center;">
-<div style="flex: 1; padding: 5px;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Mono/prix/qqplot_price.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 3:</b> QQ Plot du prix réel</p>
-</div>
-<div style="flex: 1; padding: 5px;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Mono/prix/qqplot_log_price.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 4:</b> QQ Plot de log_price</p>
+<div class="highlight-box">
+<h5>Bénéfices de la transformation logarithmique</h5>
+<ul>
+<li>Normalisation significative de la distribution (asymétrie réduite de 91%)</li>
+<li>Écart minimal entre moyenne et médiane (0.0236)</li>
+<li>Réduction drastique de l'aplatissement (de 28.06 à 0.44)</li>
+<li>Meilleure adéquation aux hypothèses des modèles paramétriques</li>
+</ul>
 </div>
 </div>
-<p>Dans notre cas, le QQ plot du <code>log_price</code> montre une meilleure adéquation à la normalité que celui du prix brut, avec des points qui suivent plus fidèlement la ligne diagonale de référence.</p>
+</div>
+</div>
+<div class="content-box">
+<h4>Analyse de la normalité par QQ-Plots</h4>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="QQ-plot des prix bruts" src="Data/Visual/plot/Mono/prix/qqplot_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 3:</strong> Le QQ-plot des prix bruts montre une <strong>forte déviation</strong> par rapport à la distribution normale théorique, particulièrement pour les valeurs élevées.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="QQ-plot des prix logarithmiques" src="Data/Visual/plot/Mono/prix/qqplot_log_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 4:</strong> Le QQ-plot de log_price révèle une <strong>bien meilleure adéquation</strong> à la normalité, les points suivant plus fidèlement la ligne diagonale de référence.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="summary-box">
+<h4>Implications pour la modélisation</h4>
+<p>L'analyse de la distribution des prix nous conduit à plusieurs conclusions importantes pour notre approche de modélisation :</p>
+<ol>
+<li><strong>Utilisation systématique de log_price</strong> comme variable cible dans nos modèles prédictifs, en raison de ses propriétés statistiques nettement supérieures</li>
+<li><strong>Meilleure adéquation aux techniques paramétriques</strong> comme la régression linéaire, qui présupposent une distribution normale des résidus</li>
+<li><strong>Interprétation plus intuitive des coefficients</strong> en termes de variations relatives plutôt qu'absolues, permettant une meilleure généralisation à travers différentes gammes de prix</li>
+<li><strong>Réduction de l'influence des valeurs aberrantes</strong> sur les performances du modèle, grâce à la compression des extrémités de la distribution</li>
+</ol>
+<p>Cette transformation logarithmique constitue donc une étape fondamentale du prétraitement de nos données, permettant d'améliorer significativement les performances et la robustesse de nos modèles prédictifs.</p>
+</div>
+</div>
+</div>
+<style>
+    /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+</style>
+<div class="section-container">
+<h2>4. Analyse exploratoire des données d'entraînement</h2>
+<div class="content-box">
+<h4>4.1 Analyse de la distribution des prix</h4>
+<div class="content-box">
+<h4>Comparaison des distributions</h4>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Histogramme des prix bruts" src="Data/Visual/plot/Mono/prix/histogramme_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 1:</strong> La distribution des prix bruts présente une <strong>forte asymétrie positive</strong> (coefficient de 4.02) avec une longue queue à droite, rendant difficile l'application de modèles paramétriques.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Histogramme des prix logarithmiques" src="Data/Visual/plot/Mono/prix/histogramme_log_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 2:</strong> La transformation logarithmique produit une distribution <strong>quasi-normale</strong> (asymétrie réduite à 0.36), bien plus adaptée à la modélisation statistique.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<h4>Statistiques descriptives et observations clés</h4>
+<div class="two-columns">
+<div class="column">
+<table class="data-table">
+<tr>
+<th>Statistique</th>
+<th>log_price</th>
+<th>price ($)</th>
+</tr>
+<tr>
+<td>Moyenne</td>
+<td>4.7685</td>
+<td>149.29</td>
+</tr>
+<tr>
+<td>Médiane</td>
+<td>4.7449</td>
+<td>115.00</td>
+</tr>
+<tr>
+<td>Écart-type</td>
+<td>0.6586</td>
+<td>130.96</td>
+</tr>
+<tr>
+<td>Minimum</td>
+<td>2.3026</td>
+<td>10.00</td>
+</tr>
+<tr>
+<td>25ème percentile</td>
+<td>4.3175</td>
+<td>75.00</td>
+</tr>
+<tr>
+<td>75ème percentile</td>
+<td>5.1874</td>
+<td>179.00</td>
+</tr>
+<tr>
+<td>Maximum</td>
+<td>7.6004</td>
+<td>1999.00</td>
+</tr>
+<tr>
+<td>Asymétrie</td>
+<td><strong>0.3618</strong></td>
+<td><strong>4.02</strong></td>
+</tr>
+<tr>
+<td>Aplatissement</td>
+<td><strong>0.4388</strong></td>
+<td><strong>28.06</strong></td>
+</tr>
+</table>
+</div>
+<div class="column">
+<div class="highlight-box">
+<h5>Distorsion des prix bruts</h5>
+<ul>
+<li>Écart important entre moyenne ($149) et médiane ($115), confirmant l'asymétrie</li>
+<li>Aplatissement très élevé (28.06) indiquant de nombreuses valeurs extrêmes</li>
+<li>Rapport max/min de 200:1 (prix entre $10 et $1999)</li>
+</ul>
+</div>
+<div class="highlight-box">
+<h5>Bénéfices de la transformation logarithmique</h5>
+<ul>
+<li>Normalisation significative de la distribution (asymétrie réduite de 91%)</li>
+<li>Écart minimal entre moyenne et médiane (0.0236)</li>
+<li>Réduction drastique de l'aplatissement (de 28.06 à 0.44)</li>
+<li>Meilleure adéquation aux hypothèses des modèles paramétriques</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<h4>Analyse de la normalité par QQ-Plots</h4>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="QQ-plot des prix bruts" src="Data/Visual/plot/Mono/prix/qqplot_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 3:</strong> Le QQ-plot des prix bruts montre une <strong>forte déviation</strong> par rapport à la distribution normale théorique, particulièrement pour les valeurs élevées.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="QQ-plot des prix logarithmiques" src="Data/Visual/plot/Mono/prix/qqplot_log_price.png"/>
+<div class="figure-caption">
+<p><strong>Figure 4:</strong> Le QQ-plot de log_price révèle une <strong>bien meilleure adéquation</strong> à la normalité, les points suivant plus fidèlement la ligne diagonale de référence.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="summary-box">
+<h4>Implications pour la modélisation</h4>
+<p>L'analyse de la distribution des prix nous conduit à plusieurs conclusions importantes pour notre approche de modélisation :</p>
+<ol>
+<li><strong>Utilisation systématique de log_price</strong> comme variable cible dans nos modèles prédictifs, en raison de ses propriétés statistiques nettement supérieures</li>
+<li><strong>Meilleure adéquation aux techniques paramétriques</strong> comme la régression linéaire, qui présupposent une distribution normale des résidus</li>
+<li><strong>Interprétation plus intuitive des coefficients</strong> en termes de variations relatives plutôt qu'absolues, permettant une meilleure généralisation à travers différentes gammes de prix</li>
+<li><strong>Réduction de l'influence des valeurs aberrantes</strong> sur les performances du modèle, grâce à la compression des extrémités de la distribution</li>
+</ol>
+<p>Cette transformation logarithmique constitue donc une étape fondamentale du prétraitement de nos données, permettant d'améliorer significativement les performances et la robustesse de nos modèles prédictifs.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -7715,100 +9288,1299 @@ La transformation logarithmique (log_price) normalise efficacement cette distrib
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="4.2-Analyse-des-caract%C3%A9ristiques-physiques-des-propri%C3%A9t%C3%A9s">4.2 Analyse des caractéristiques physiques des propriétés<a class="anchor-link" href="#4.2-Analyse-des-caract%C3%A9ristiques-physiques-des-propri%C3%A9t%C3%A9s">¶</a></h3><p>Cette section examine l'influence des caractéristiques physiques des logements sur le prix des locations Airbnb.</p>
-<h4 id="4.2.1-Distribution-des-caract%C3%A9ristiques-d'h%C3%A9bergement">4.2.1 Distribution des caractéristiques d'hébergement<a class="anchor-link" href="#4.2.1-Distribution-des-caract%C3%A9ristiques-d'h%C3%A9bergement">¶</a></h4><div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-<div style="width: 32%;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/01_distribution_types_proprietes.png" width="100%"/>
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/02_prix_median_par_type_propriete.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 5:</b> Distribution et prix médian par type de propriété</p>
+<style>
+    /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+</style>
+<div class="section-container">
+<h2>4.2 Analyse des caractéristiques physiques des propriétés</h2>
+<div class="content-box">
+<h4>4.2.1 Profil des hébergements et leur impact sur les prix</h4>
+<div class="content-box">
+<p>Cette section examine comment les attributs physiques des logements influencent leur prix sur Airbnb. Nous analysons d'abord les types de propriété, puis l'impact des aménités, avant de synthétiser ces relations dans une matrice de corrélation.</p>
 </div>
-<div style="width: 32%;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/03_distribution_types_chambre.png" width="100%"/>
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/04_prix_median_par_type_chambre.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 6:</b> Distribution et prix médian par type de chambre</p>
+<div class="content-box">
+<h5>Types de propriétés : domination des appartements urbains</h5>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution des types de propriétés" src="Data/Visual/plot/Multiple/cara_physique/01_distribution_types_proprietes.png"/>
+<div class="figure-caption">
+<p>Les <b>appartements représentent 65%</b> des annonces Airbnb, suivis des maisons (21%), reflétant le caractère urbain du marché.</p>
 </div>
-<div style="width: 32%;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/06_distribution_types_lit.png" width="100%"/>
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/07_prix_median_par_type_lit.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 7:</b> Distribution et prix médian par type de lit</p>
 </div>
 </div>
-<p>L'analyse des distributions révèle plusieurs tendances importantes:</p>
+<div class="column">
+<div class="figure-container">
+<img alt="Prix médian par type de propriété" src="Data/Visual/plot/Multiple/cara_physique/02_prix_median_par_type_propriete.png"/>
+<div class="figure-caption">
+<p>Les <b>lofts ($139) et condominiums ($133)</b> commandent les prix les plus élevés, incarnant le segment premium du marché.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="two-columns">
+<div class="column">
+<div class="content-box">
+<h5>Modes d'occupation : l'importance du logement entier</h5>
+<div class="figure-container">
+<img alt="Distribution des types de chambre" src="Data/Visual/plot/Multiple/cara_physique/03_distribution_types_chambre.png"/>
+<div class="figure-caption">
+<p>58% des annonces concernent des <b>logements entiers</b>, contre 39% pour les <b>chambres privées</b> et seulement 3% pour les <b>chambres partagées</b>.</p>
+</div>
+</div>
+<div class="figure-container">
+<img alt="Prix médian par type de chambre" src="Data/Visual/plot/Multiple/cara_physique/04_prix_median_par_type_chambre.png"/>
+<div class="figure-caption">
+<p>Les <b>logements entiers</b> sont près de <b>deux fois plus chers</b> ($153) que les chambres privées ($75), reflétant la prime pour l'intimité.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="content-box">
+<h5>Types de lits : standardisation du marché</h5>
+<div class="figure-container">
+<img alt="Distribution des types de lit" src="Data/Visual/plot/Multiple/cara_physique/06_distribution_types_lit.png"/>
+<div class="figure-caption">
+<p>Les <b>lits standards dominent à 95%</b> du marché, les autres types étant marginaux et généralement associés à des logements de moindre standing.</p>
+</div>
+</div>
+<div class="figure-container">
+<img alt="Prix médian par type de lit" src="Data/Visual/plot/Multiple/cara_physique/07_prix_median_par_type_lit.png"/>
+<div class="figure-caption">
+<p>Le prix médian des logements avec <b>lits standards ($115)</b> est significativement plus élevé que ceux avec des lits alternatifs (canapés, futons).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-box">
+<p style="margin:0; font-style:italic;">Les caractéristiques physiques démontrent une polarisation du marché Airbnb entre les logements entiers premium (appartements et lofts avec lits standards) et les options économiques (chambres privées/partagées). Le type de logement et le mode d'occupation apparaissent comme des facteurs déterminants du prix.</p>
+</div>
+<div class="content-box">
+<h4>4.2.2 L'impact stratégique des aménités sur la valorisation</h4>
+<div class="two-columns">
+<div class="column">
+<div class="content-box">
+<h5>Des aménités courantes mais à faible impact</h5>
+<div class="figure-container">
+<img alt="Aménités les plus courantes" src="Data/Visual/plot/Multiple/cara_physique/11_20_amenites_plus_courantes.png"/>
+</div>
 <ul>
-<li>Les <strong>appartements</strong> dominent largement le marché (65% des annonces), suivis par les maisons (21%).</li>
-<li>La majorité des annonces (58%) concernent des <strong>logements entiers</strong>, tandis que les chambres privées représentent 39% du marché.</li>
-<li>Les <strong>lits standards</strong> sont présents dans 95% des logements, les autres types étant marginaux.</li>
-<li>Les <strong>prix médians</strong> varient considérablement: les lofts ($139) et condominiums ($133) sont les types de propriétés les plus chers, tandis que les logements entiers ($153) sont presque deux fois plus chers que les chambres privées ($75).</li>
+<li>Le <b>Wi-Fi (93%)</b>, le <b>chauffage (89%)</b> et les <b>essentiels (84%)</b> sont présents dans la grande majorité des logements</li>
+<li>Ces aménités de base sont considérées comme <b>standards</b> plutôt que comme des facteurs de valorisation distinctive</li>
 </ul>
-<p>Cette répartition des types de logements reflète la diversité de l'offre sur Airbnb tout en mettant en évidence des écarts de prix significatifs entre les différentes catégories.</p>
-<h4 id="4.2.2-Analyse-des-am%C3%A9nit%C3%A9s-et-leur-impact">4.2.2 Analyse des aménités et leur impact<a class="anchor-link" href="#4.2.2-Analyse-des-am%C3%A9nit%C3%A9s-et-leur-impact">¶</a></h4><div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-<div style="width: 32%;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/11_20_amenites_plus_courantes.png" width="100%"/>
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/10_relation_nombre_amenites_prix.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 8:</b> Aménités courantes et relation avec le prix</p>
-</div>
-<div style="width: 32%;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/13_impact_amenites_sur_prix_pct.png" width="100%"/>
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/14_comparaison_prix_avec_sans_amenites.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 9:</b> Impact des aménités sur le prix</p>
-</div>
-<div style="width: 32%;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/15_prix_moyen_par_nombre_amenites_premium.png" width="100%"/>
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/15_prix_moyen_par_nombre_amenites_premium.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 10:</b> Impact des aménités premium</p>
 </div>
 </div>
-<p>L'analyse détaillée des aménités révèle plusieurs tendances significatives:</p>
+<div class="column">
+<div class="content-box">
+<h5>Des aménités premium à fort impact</h5>
+<div class="figure-container">
+<img alt="Impact des aménités sur le prix" src="Data/Visual/plot/Multiple/cara_physique/13_impact_amenites_sur_prix_pct.png"/>
+</div>
 <ul>
-<li>Le <strong>nombre total d'aménités</strong> est positivement corrélé au prix (r=0.43), montrant une relation quasi-linéaire.</li>
-<li>Les <strong>aménités les plus courantes</strong> (Wi-Fi: 93%, chauffage: 89%, essentiels: 84%) sont présentes dans la grande majorité des logements mais n'ont qu'un impact modéré sur le prix.</li>
-<li>Les <strong>aménités premium</strong> comme la piscine (+35%), le jacuzzi (+28%) et l'accès au gymnase (+22%) justifient des primes de prix significatives malgré leur rareté.</li>
-<li>Le <strong>score premium</strong> (présence d'aménités haut de gamme) montre une progression régulière du prix moyen, passant de $95 pour les logements sans aménité premium à $245 pour ceux qui en possèdent cinq.</li>
-<li>Les logements avec <strong>équipements de divertissement</strong> (télévision, Netflix) et <strong>équipements de confort</strong> (climatisation, sèche-linge) commandent systématiquement un prix supérieur de 15-20%.</li>
+<li>La <b>piscine (+35%)</b>, le <b>jacuzzi (+28%)</b> et l'<b>accès au gymnase (+22%)</b> justifient des primes significatives</li>
+<li>Ces aménités sont <b>rares</b> mais constituent de puissants différenciateurs</li>
 </ul>
-<p>Cette répartition des aménités et leur impact différencié sur les prix suggèrent une stratification claire du marché Airbnb, allant des logements basiques aux propriétés de luxe. Ces résultats indiquent que les hôtes peuvent optimiser leur rentabilité en investissant stratégiquement dans certaines aménités clés plutôt qu'en multipliant les équipements standards.</p>
-<h4 id="4.2.3-Relations-entre-les-caract%C3%A9ristiques-physiques-et-le-prix">4.2.3 Relations entre les caractéristiques physiques et le prix<a class="anchor-link" href="#4.2.3-Relations-entre-les-caract%C3%A9ristiques-physiques-et-le-prix">¶</a></h4><div style="width: 100%; margin-bottom: 20px;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/05_relation_caracteristiques_numeriques_prix.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 11:</b> Relations entre caractéristiques numériques et prix</p>
 </div>
-<p>L'analyse des relations révèle plusieurs insights importants:</p>
-<ul>
-<li>Le <strong>nombre de salles de bain</strong> présente la corrélation la plus forte avec le prix (r=0.52), suivi par la <strong>capacité d'accueil</strong> (r=0.49).</li>
-<li>La relation entre le nombre de chambres/lits et le prix est positive mais moins prononcée.</li>
-<li>En termes de <strong>prix par personne</strong>, les chambres partagées offrent le meilleur rapport qualité-prix, suivies des chambres privées.</li>
-<li>Pour le <strong>prix par chambre</strong>, les lofts commandent la prime la plus élevée, reflétant leur caractère exclusif.</li>
-</ul>
-<p>Ces observations suggèrent que les facteurs liés au confort (salles de bain) et à la capacité d'accueil influencent davantage le prix que le simple nombre de chambres ou de lits.</p>
-<h4 id="4.2.4-Matrice-de-corr%C3%A9lation-et-synth%C3%A8se">4.2.4 Matrice de corrélation et synthèse<a class="anchor-link" href="#4.2.4-Matrice-de-corr%C3%A9lation-et-synth%C3%A8se">¶</a></h4><div style="width: 100%; margin-bottom: 20px;">
-<img alt="No description has been provided for this image" src="Data/Visual/plot/Multiple/cara_physique/16_matrice_correlation.png" width="100%"/>
-<p style="text-align: center;"><b>Figure 12:</b> Matrice de corrélation des caractéristiques physiques</p>
 </div>
-<p>La matrice de corrélation synthétise les relations entre toutes les caractéristiques physiques et le prix logarithmique. On observe plusieurs groupes de variables fortement corrélées entre elles:</p>
-<ul>
-<li>Le <strong>cluster capacité</strong>: accommodates, bedrooms, beds et bathrooms sont fortement corrélés entre eux et avec le prix.</li>
-<li>Le <strong>cluster aménités</strong>: le nombre d'aménités et le score premium sont fortement corrélés au prix.</li>
-<li>Les mesures de <strong>prix relatif</strong> (par personne, par chambre) présentent des corrélations différentes avec les autres variables.</li>
-</ul>
-<p>En conclusion, notre analyse des caractéristiques physiques révèle que le prix d'un logement Airbnb est déterminé principalement par:</p>
+</div>
+</div>
+<div class="content-box">
+<h5>L'accumulation d'aménités premium: un puissant levier de prix</h5>
+<div class="figure-container">
+<img alt="Prix moyen par nombre d'aménités premium" src="Data/Visual/plot/Multiple/cara_physique/15_prix_moyen_par_nombre_amenites_premium.png"/>
+<div class="figure-caption">
+<p>Le prix moyen augmente de <b>$95</b> pour les logements sans aménité premium à <b>$245</b> pour ceux qui en cumulent cinq, démontrant l'effet multiplicateur de la stratégie d'aménités haut de gamme.</p>
+</div>
+</div>
+</div>
+<div class="summary-box">
+<p style="margin:0; font-style:italic;">L'analyse des aménités révèle une distinction claire entre les équipements de base (attendus mais sans effet premium) et les aménités de luxe (rares mais à fort impact sur le prix). Les hôtes peuvent ainsi optimiser leur rentabilité en investissant stratégiquement dans des aménités clés plutôt qu'en multipliant les équipements standards.</p>
+</div>
+<div class="content-box">
+<h4>4.2.3 Synthèse des corrélations et facteurs déterminants</h4>
+<div class="figure-container">
+<img alt="Matrice de corrélation" src="Data/Visual/plot/Multiple/cara_physique/16_matrice_correlation.png"/>
+</div>
+<div style="columns: 2; column-gap: 30px; font-size: 0.95em; color: #444;">
+<p style="margin-top:0;"><b>Cluster capacité</b>: Les variables accommodates, bedrooms, beds et bathrooms sont fortement corrélées entre elles (r &gt; 0.5) et avec le prix (r = 0.45-0.58), formant un groupe cohérent d'indicateurs de taille et de confort.</p>
+<p><b>Cluster aménités</b>: Le nombre d'aménités et le score premium sont modérément corrélés au prix (r = 0.16-0.36), mais leur impact combiné crée un effet multiplicateur significatif, particulièrement visible dans les segments supérieurs.</p>
+<p><b>Prix relatif</b>: Les mesures de prix par personne et par chambre présentent des corrélations distinctes, révélant des dynamiques de valorisation différentes selon le segment de marché.</p>
+</div>
+</div>
+<div class="summary-box">
+<h5>Conclusion sur les déterminants physiques du prix</h5>
+<p>Notre analyse des caractéristiques physiques révèle que le prix d'un logement Airbnb est principalement déterminé par trois facteurs clés:</p>
 <ol>
-<li>Sa capacité d'accueil et son nombre de salles de bain</li>
-<li>La présence d'aménités premium spécifiques</li>
-<li>Le type de propriété et le mode d'occupation (logement entier vs chambre)</li>
+<li><b>Capacité et confort</b>: Le nombre de salles de bain (r=0.52) et la capacité d'accueil (r=0.49) sont les prédicteurs numériques les plus puissants du prix</li>
+<li><b>Aménités premium</b>: La présence d'équipements distinctifs comme piscine ou jacuzzi peut justifier une prime de prix allant jusqu'à 35%</li>
+<li><b>Type d'occupation</b>: Les logements entiers, particulièrement les lofts et condominiums, commandent une prime significative par rapport aux chambres privées</li>
 </ol>
-<p>Ces facteurs constitueront les variables explicatives clés dans notre modèle prédictif.</p>
+<p>Ces facteurs constitueront les variables explicatives fondamentales dans notre modèle prédictif, permettant une estimation plus précise des prix selon les caractéristiques physiques des biens.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fc8a4b37">
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a303de63">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="4.3-Analyse-g%C3%A9ographique-et-impact-de-la-localisation">4.3 Analyse géographique et impact de la localisation<a class="anchor-link" href="#4.3-Analyse-g%C3%A9ographique-et-impact-de-la-localisation">¶</a></h3><p>[Analyse de l'influence de la ville, du quartier et des coordonnées géographiques]</p>
-<h3 id="4.4-Analyse-des-am%C3%A9nit%C3%A9s">4.4 Analyse des aménités<a class="anchor-link" href="#4.4-Analyse-des-am%C3%A9nit%C3%A9s">¶</a></h3><p>[Étude de l'impact des aménités sur le prix]</p>
-<h3 id="4.5-Analyse-de-l'influence-des-h%C3%B4tes-et-des-avis">4.5 Analyse de l'influence des hôtes et des avis<a class="anchor-link" href="#4.5-Analyse-de-l'influence-des-h%C3%B4tes-et-des-avis">¶</a></h3><p>[Analyse de l'importance de l'expérience des hôtes et des évaluations]</p>
+<style>
+    /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+</style>
+<div class="section-container">
+<h2>4.3 Analyse géographique et impact de la localisation</h2>
+<div class="content-box">
+<h4>Influence géographique sur les prix</h4>
+<p>Cette section examine comment la situation géographique influence les prix des locations Airbnb, en analysant les variations entre villes, quartiers et coordonnées GPS précises. L'objectif est de quantifier l'impact de la localisation sur les tarifs et d'identifier les zones à forte valeur ajoutée.</p>
+<p>Nous analysons successivement la hiérarchie urbaine (différences entre villes), la granularité des quartiers, et les patterns spatiaux révélés par les données géographiques précises.</p>
+</div>
+<div class="content-box">
+<h4>4.3.1 Hiérarchie urbaine et disparités inter-villes</h4>
+<p>L'analyse des variations de prix entre les différentes villes révèle une hiérarchie urbaine marquée, reflétant les différences d'attractivité touristique, de coût de la vie et de densité urbaine.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution des propriétés par ville" src="Data/Visual/plot/Multiple/localisation/01_distribution_proprietes_par_ville.png"/>
+<div class="figure-caption">
+<p>La <strong>concentration urbaine</strong> se dessine clairement avec une dominance de certaines métropoles sur le marché Airbnb, reflétant leur attractivité touristique et leur densité de population.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Prix médian par ville" src="Data/Visual/plot/Multiple/localisation/02_prix_median_par_ville.png"/>
+<div class="figure-caption">
+<p>Les <strong>écarts de prix substantiels</strong> entre villes révèlent l'impact déterminant de la localisation géographique sur la valorisation des biens.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<h4>4.3.2 Granularité des quartiers : l'ultra-localisation comme facteur de prix</h4>
+<p>Au-delà des différences entre villes, l'analyse des quartiers révèle une segmentation fine des prix à l'échelle ultra-locale. Chaque ville présente sa propre géographie des valeurs, avec des quartiers premium, des zones intermédiaires et des secteurs plus accessibles.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Quartiers populaires NYC" src="Data/Visual/plot/Multiple/localisation/04_quartiers_populaires_NYC.png"/>
+<div class="figure-caption">
+<p>La <strong>concentration de l'offre</strong> dans certains quartiers révèle les zones privilégiées par les hôtes Airbnb, souvent corrélées avec l'accessibilité touristique et les infrastructures de transport.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Prix médian par quartier NYC" src="Data/Visual/plot/Multiple/localisation/05_prix_median_quartiers_NYC.png"/>
+<div class="figure-caption">
+<p>Les <strong>écarts de prix entre quartiers</strong> d'une même ville peuvent être considérables, reflétant la réputation, l'accessibilité et le standing des différentes zones urbaines.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<h5>Identification des quartiers premium</h5>
+<div class="figure-container">
+<img alt="Quartiers premium" src="Data/Visual/plot/Multiple/localisation/32_quartiers_premium.png"/>
+<div class="figure-caption">
+<p>Les <strong>quartiers premium</strong> se distinguent par une forte proportion de logements haut de gamme (&gt;150% du prix médian). Ces zones constituent les <strong>points chauds</strong> du marché, où la localisation justifie des tarifs significativement supérieurs.</p>
+</div>
+</div>
+</div>
+<div class="highlight-box">
+<p style="margin:0; font-style:italic;">L'analyse des quartiers confirme que la micro-localisation est un déterminant crucial du prix. Même au sein d'une ville donnée, les écarts entre quartiers peuvent représenter des multiples de 2 à 4, démontrant l'importance de l'adresse précise dans la stratégie de pricing des hôtes.</p>
+</div>
+<div class="content-box">
+<h4>4.3.3 Analyse spatiale par coordonnées GPS : patterns géographiques et zones de valeur</h4>
+<p>L'exploitation des coordonnées GPS précises permet une analyse spatiale fine, révélant les patterns géographiques de valorisation et les corridors de prix élevés au sein des espaces urbains.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution géographique des prix" src="Data/Visual/plot/Multiple/localisation/17_distribution_geographique_prix.png"/>
+<div class="figure-caption">
+<p>La <strong>cartographie des prix</strong> révèle des clusters géographiques distincts, avec des zones de concentration des prix élevés (points chauds) et des corridors de valorisation suivant souvent les axes de transport et les zones centrales.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Géographie des prix NYC" src="Data/Visual/plot/Multiple/localisation/18_geo_prix_NYC.png"/>
+<div class="figure-caption">
+<p>L'analyse spatiale urbaine détaillée montre la <strong>géographie fine des prix</strong> avec des gradients nets entre centre-ville premium et périphéries plus accessibles, reflétant l'accessibilité et l'attractivité des zones.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Heatmap de densité" src="Data/Visual/plot/Multiple/localisation/24_heatmap_densite.png"/>
+<div class="figure-caption">
+<p>La <strong>heatmap de densité</strong> révèle les zones de forte concentration de l'offre Airbnb, généralement situées dans les centres urbains et les zones touristiques principales.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Heatmap des prix moyens" src="Data/Visual/plot/Multiple/localisation/25_heatmap_prix_moyen.png"/>
+<div class="figure-caption">
+<p>La <strong>cartographie thermique des prix</strong> identifie les zones de forte valorisation géographique, souvent distinctes des zones de forte densité, révélant la segmentation qualitative de l'espace urbain.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-box">
+<p style="margin:0; font-style:italic;">L'analyse spatiale par coordonnées GPS confirme l'existence de "zones de prix" distinctes au sein des villes, avec des patterns géographiques stables qui reflètent l'attractivité différentielle des espaces urbains. Cette géographie fine des prix constitue un outil précieux pour l'optimisation des stratégies de localisation et de pricing.</p>
+</div>
+<div class="content-box">
+<h4>4.3.4 Synthèse des corrélations géographiques et variabilité urbaine</h4>
+<div class="figure-container">
+<img alt="Corrélations géographiques" src="Data/Visual/plot/Multiple/localisation/26_correlation_geo_prix.png"/>
+<div class="figure-caption">
+<p>Les <strong>corrélations géographiques</strong> directes (latitude/longitude vs prix) peuvent paraître modestes au niveau global, mais cachent des patterns locaux significatifs révélés par l'analyse spatiale fine.</p>
+</div>
+</div>
+</div>
+<div class="two-columns">
+<div class="column">
+<div class="content-box">
+<h5>Caractéristiques moyennes par ville</h5>
+<div class="figure-container">
+<img alt="Comparaison des caractéristiques par ville" src="Data/Visual/plot/Multiple/localisation/29_comparaison_caracteristiques_villes.png"/>
+<div class="figure-caption">
+<p>Les <strong>profils urbains différenciés</strong> révèlent que chaque ville a ses propres caractéristiques d'offre (taille, capacité), influençant indirectement les structures de prix.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="content-box">
+<h5>Variabilité des prix intra-urbaine</h5>
+<div class="figure-container">
+<img alt="Variation des prix par ville" src="Data/Visual/plot/Multiple/localisation/30_variation_prix_par_ville.png"/>
+<div class="figure-caption">
+<p>Le <strong>coefficient de variation</strong> des prix par ville révèle l'hétérogénéité interne de chaque marché urbain, certaines villes présentant une segmentation plus marquée que d'autres.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="summary-box">
+<h5>Conclusion sur l'impact géographique</h5>
+<p>Notre analyse géographique révèle une hiérarchisation complexe de l'espace dans la formation des prix Airbnb, organisée selon trois niveaux d'analyse :</p>
+<ol style="color: #444;">
+<li><strong>Niveau macro (inter-villes)</strong> : Les différences entre villes constituent le premier facteur de segmentation, avec des écarts de prix médian pouvant atteindre des rapports de 1 à 3 selon l'attractivité et le positionnement économique des destinations</li>
+<li><strong>Niveau méso (quartiers)</strong> : Au sein de chaque ville, la micro-localisation génère des écarts substantiels, avec des quartiers premium justifiant des prix 2 à 4 fois supérieurs aux zones périphériques</li>
+<li><strong>Niveau micro (coordonnées GPS)</strong> : L'analyse spatiale fine révèle des patterns géographiques stables, avec des corridors de valorisation et des zones de prix homogènes qui reflètent l'accessibilité et l'attractivité locale</li>
+</ol>
+<p>La localisation apparaît ainsi comme un déterminant fondamental du prix, avec un effet multiplicateur qui justifie l'intégration systématique des variables géographiques dans tout modèle prédictif de prix Airbnb.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c0fb930d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<style>
+    /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+h1 {
+    font-size: 2.5em;
+    color: #FF5A5F;
+    text-align: center;
+    border-bottom: 3px solid #FF5A5F;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 2em;
+    color: #484848;
+    border-bottom: 2px solid #00A699;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 1.6em;
+    color: #FC642D;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+h4 {
+    font-size: 1.3em;
+    color: #484848;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 1.1em;
+    color: #767676;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ===== CONTENEURS PRINCIPAUX ===== */
+.section-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.content-box {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF5A5F;
+}
+.highlight-box {
+    background-color: #fff8e6;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #FF5A5F;
+}
+.summary-box {
+    background-color: #f0f8f7;
+    border: 1px solid #00A699;
+    border-radius: 6px;
+    padding: 25px;
+    margin: 25px 0;
+    border-left: 4px solid #00A699;
+}
+/* ===== MISE EN PAGE ===== */
+.two-columns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+.column {
+    flex: 1;
+}
+.three-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 25px;
+}
+/* ===== IMAGES ===== */
+.figure-container {
+    text-align: center;
+    margin: 25px 0;
+}
+.figure-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.figure-caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 25px 0;
+}
+.image-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+/* ===== TABLEAUX ===== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #484848;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.data-table tr:hover {
+    background-color: #e8f4f3;
+}
+/* ===== LISTES ===== */
+.key-points {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.key-points ul {
+    list-style: none;
+    padding: 0;
+}
+.key-points li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+.key-points li:before {
+    content: "▶";
+    color: #FF5A5F;
+    position: absolute;
+    left: 0;
+}
+/* ===== ÉLÉMENTS SPÉCIAUX ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+.stat-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #FF5A5F;
+}
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF5A5F;
+    display: block;
+}
+.stat-label {
+    color: #767676;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 200px;
+}
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FF5A5F;
+    color: white;
+    line-height: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.step-title {
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 0.9em;
+    color: #666;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .two-columns, .process-steps {
+        flex-direction: column;
+    }
+    .image-grid, .image-grid-three {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+}
+</style>
+<div class="section-container">
+<h2>4.4 Analyse de l'influence des hôtes et des avis</h2>
+<div class="content-box">
+<h4>Impact de la réputation sur les prix</h4>
+<p>Cette section étudie comment l'expérience des hôtes et la qualité des évaluations impactent les tarifs des hébergements. Dans l'économie de partage, la confiance et la réputation jouent un rôle déterminant dans les décisions de réservation et donc dans la capacité de l'hôte à pratiquer des prix premium.</p>
+<p>Nous analysons quatre dimensions clés de la réputation : l'expérience temporelle des hôtes, leur statut de vérification, le volume d'avis reçus, et la qualité des évaluations. Ces facteurs sont ensuite synthétisés dans un indice de réputation global.</p>
+</div>
+<div class="content-box">
+<h4>4.4.1 L'expérience des hôtes : la prime à l'ancienneté</h4>
+<p>L'ancienneté sur la plateforme Airbnb constitue un signal de fiabilité et d'expertise dans l'accueil. Les hôtes expérimentés ont développé des savoir-faire opérationnels et bénéficient d'une crédibilité acquise qui peut justifier des tarifs supérieurs.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution de l'expérience des hôtes" src="Data/Visual/plot/Multiple/hotes_avis/01_distribution_experience_hotes.png"/>
+<div class="figure-caption">
+<p>La <strong>répartition de l'expérience</strong> révèle une plateforme mature avec une base d'hôtes expérimentés, la médiane se situant autour de 3-4 ans d'ancienneté.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Relation entre expérience et prix" src="Data/Visual/plot/Multiple/hotes_avis/02_relation_experience_prix.png"/>
+<div class="figure-caption">
+<p>La <strong>corrélation positive</strong> entre ancienneté et prix suggère que l'expérience se traduit par une capacité à valoriser l'offre et à justifier des tarifs premium.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Prix par catégorie d'expérience" src="Data/Visual/plot/Multiple/hotes_avis/03_prix_par_categorie_experience.png"/>
+<div class="figure-caption">
+<p>La <strong>dispersion des prix</strong> s'accroît avec l'expérience, les hôtes vétérans (6+ ans) affichant une gamme de prix plus étendue, signe d'une différenciation stratégique accrue.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Prix médian par expérience" src="Data/Visual/plot/Multiple/hotes_avis/04_prix_median_par_experience.png"/>
+<div class="figure-caption">
+<p>Les <strong>hôtes vétérans</strong> pratiquent des prix médians significativement supérieurs aux nouveaux arrivants, démontrant l'effet cumulatif de l'expérience sur la valorisation.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-box">
+<p style="margin:0; font-style:italic;">L'analyse de l'ancienneté révèle un effet d'apprentissage progressif : les hôtes expérimentés développent des compétences tarifaires et opérationnelles qui leur permettent de justifier des prix premium tout en maintenant leur attractivité. Cette dynamique suggère l'existence d'une courbe d'expérience dans l'optimisation revenue des locations courte durée.</p>
+</div>
+<div class="content-box">
+<h4>4.4.2 Vérification d'identité : la prime à la confiance</h4>
+<p>La vérification d'identité constitue un signal de confiance fondamental dans l'économie de partage. Ce processus volontaire de validation par Airbnb peut réduire l'asymétrie d'information et l'incertitude perçue par les voyageurs, justifiant potentiellement des tarifs supérieurs.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution des statuts de vérification" src="Data/Visual/plot/Multiple/hotes_avis/05_distribution_verification_identite.png"/>
+<div class="figure-caption">
+<p>La <strong>proportion majoritaire d'hôtes vérifiés</strong> indique une adoption généralisée de cette pratique de sécurisation, devenant progressivement un standard du marché.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Prix médian par vérification" src="Data/Visual/plot/Multiple/hotes_avis/07_prix_median_verification.png"/>
+<div class="figure-caption">
+<p>Les <strong>hôtes vérifiés</strong> pratiquent des prix médians légèrement supérieurs, suggérant que la confiance générée se traduit par une prime tarifaire modeste mais mesurable.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<div class="figure-container">
+<img alt="Prix par vérification d'identité" src="Data/Visual/plot/Multiple/hotes_avis/06_prix_par_verification_identite.png"/>
+<div class="figure-caption">
+<p>L'analyse de distribution confirme que la <strong>vérification d'identité</strong> génère un léger décalage vers le haut de la structure tarifaire, particulièrement visible dans les segments de prix moyens et élevés.</p>
+</div>
+</div>
+</div>
+<div class="highlight-box">
+<p style="margin:0; font-style:italic;">La vérification d'identité, bien que générant un impact tarifaire modeste, constitue désormais un prérequis concurrentiel plutôt qu'un différenciateur premium. Son absence peut pénaliser la tarification plus que sa présence ne la bonifie, illustrant l'évolution des standards de confiance sur la plateforme.</p>
+</div>
+<div class="content-box">
+<h4>4.4.3 Volume d'avis : l'effet de crédibilité sociale</h4>
+<p>Le nombre d'avis reçus constitue un indicateur de l'activité historique et de la crédibilité sociale de l'hôte. Plus qu'un simple volume, il reflète l'expérience opérationnelle accumulée et la validation collective de la qualité du service.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution du nombre d'avis" src="Data/Visual/plot/Multiple/hotes_avis/09_distribution_nombre_avis.png"/>
+<div class="figure-caption">
+<p>La <strong>distribution asymétrique</strong> révèle une concentration d'hôtes avec peu d'avis et une minorité d'hôtes très actifs, caractéristique des plateformes d'économie de partage.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Relation entre nombre d'avis et prix" src="Data/Visual/plot/Multiple/hotes_avis/10_relation_nombre_avis_prix.png"/>
+<div class="figure-caption">
+<p>La <strong>corrélation positive</strong> entre volume d'avis et prix suggère que l'expérience accumulée et la preuve sociale permettent une valorisation tarifaire progressive.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<div class="figure-container">
+<img alt="Prix par catégorie d'avis" src="Data/Visual/plot/Multiple/hotes_avis/11_prix_par_categorie_avis.png"/>
+<div class="figure-caption">
+<p>La <strong>progression tarifaire</strong> selon le volume d'avis illustre l'effet d'accumulation de crédibilité : les hôtes avec de nombreux avis (50+) peuvent justifier des prix significativement supérieurs à ceux sans historique d'évaluations.</p>
+</div>
+</div>
+</div>
+<div class="highlight-box">
+<p style="margin:0; font-style:italic;">Le volume d'avis fonctionne comme un multiplicateur de confiance qui autorise une tarification premium. Cette dynamique crée un cercle vertueux où l'activité génère de la crédibilité, qui à son tour permet des prix plus élevés et donc une meilleure rentabilité.</p>
+</div>
+<div class="content-box">
+<h4>4.4.4 Qualité des évaluations : l'excellence comme levier de prix</h4>
+<p>Les scores d'évaluation constituent l'indicateur le plus direct de la qualité perçue du service. Dans un marché où l'expérience client est déterminante, l'excellence des évaluations peut justifier des primes tarifaires substantielles.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution des scores d'évaluation" src="Data/Visual/plot/Multiple/hotes_avis/12_distribution_scores_evaluation.png"/>
+<div class="figure-caption">
+<p>La <strong>concentration des scores élevés</strong> (médiane &gt;90) reflète la tendance positive des évaluations sur Airbnb, mais crée une compétition accrue pour l'excellence.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Relation entre score et prix" src="Data/Visual/plot/Multiple/hotes_avis/13_relation_score_prix.png"/>
+<div class="figure-caption">
+<p>La <strong>corrélation positive</strong> entre scores et prix démontre que l'excellence évaluée se traduit directement par une capacité de tarification premium.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Prix par catégorie de score" src="Data/Visual/plot/Multiple/hotes_avis/14_prix_par_categorie_score.png"/>
+<div class="figure-caption">
+<p>La <strong>dispersion croissante des prix</strong> avec la qualité des scores révèle que l'excellence ouvre l'accès à des segments tarifaires premium inaccessibles aux hôtes moins bien évalués.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Prix médian par score" src="Data/Visual/plot/Multiple/hotes_avis/15_prix_median_par_score.png"/>
+<div class="figure-caption">
+<p>Les <strong>logements excellents</strong> (95-100) commandent des primes substantielles par rapport aux évaluations moyennes, démontrant la valorisation directe de la qualité perçue.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-box">
+<p style="margin:0; font-style:italic;">La qualité des évaluations apparaît comme le levier de valorisation le plus puissant, créant une différenciation nette entre les segments de marché. L'excellence évaluée (scores 95+) constitue un véritable passeport pour la tarification premium, justifiant des écarts de prix significatifs.</p>
+</div>
+<div class="content-box">
+<h4>4.4.5 Synthèse : indice de réputation et impact global</h4>
+<p>Pour capturer l'effet combiné de tous les facteurs de réputation, nous construisons un indice synthétique pondérant l'expérience (20%), la vérification (10%), le volume d'avis (40%) et la qualité des évaluations (30%). Cette approche multidimensionnelle révèle l'impact global de la réputation sur la tarification.</p>
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Distribution de l'indice de réputation" src="Data/Visual/plot/Multiple/hotes_avis/16_distribution_indice_reputation.png"/>
+<div class="figure-caption">
+<p>La <strong>distribution de l'indice</strong> révèle une segmentation naturelle du marché entre hôtes à faible, modérée et excellente réputation, chaque segment ayant ses propres dynamiques tarifaires.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Relation entre réputation et prix" src="Data/Visual/plot/Multiple/hotes_avis/17_relation_reputation_prix.png"/>
+<div class="figure-caption">
+<p>La <strong>corrélation robuste</strong> entre l'indice de réputation et les prix confirme l'effet multiplicateur de la combinaison des facteurs de confiance sur la capacité de tarification.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box">
+<div class="figure-container">
+<img alt="Prix par catégorie de réputation" src="Data/Visual/plot/Multiple/hotes_avis/18_prix_par_categorie_reputation.png"/>
+<div class="figure-caption">
+<p>La <strong>hiérarchisation claire des prix</strong> selon les niveaux de réputation démontre l'existence de segments de marché distincts, avec des écarts tarifaires substantiels entre réputation faible et excellente.</p>
+</div>
+</div>
+</div>
+<div class="content-box">
+<div class="two-columns">
+<div class="column">
+<div class="figure-container">
+<img alt="Corrélation des facteurs de réputation" src="Data/Visual/plot/Multiple/hotes_avis/19_correlation_reputation.png"/>
+<div class="figure-caption">
+<p>Les <strong>corrélations entre facteurs</strong> révèlent des synergies entre ancienneté, volume d'avis et qualité des évaluations, suggérant un effet d'accumulation de la réputation dans le temps.</p>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="figure-container">
+<img alt="Impact comparatif de la réputation" src="Data/Visual/plot/Multiple/hotes_avis/21_impact_comparatif_reputation.png"/>
+<div class="figure-caption">
+<p>L'<strong>analyse comparative</strong> révèle que la qualité des évaluations et la réputation globale génèrent les impacts tarifaires les plus significatifs, tandis que la vérification a un effet plus modeste.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="summary-box">
+<h5>Conclusion sur l'impact de la réputation</h5>
+<p>Notre analyse de la réputation révèle un système complexe où la confiance se traduit directement en capacité de tarification premium, organisé selon quatre leviers principaux :</p>
+<ol style="color: #444;">
+<li><strong>Excellence évaluée (impact majeur)</strong> : Les scores d'évaluation 95+ génèrent les primes tarifaires les plus substantielles, constituant le différenciateur concurrentiel le plus puissant</li>
+<li><strong>Volume d'avis (effet cumulatif)</strong> : L'accumulation de crédibilité sociale permet une valorisation progressive, avec un seuil critique autour de 50 avis pour accéder aux prix premium</li>
+<li><strong>Expérience temporelle (effet d'apprentissage)</strong> : L'ancienneté génère des compétences tarifaires et opérationnelles qui se traduisent par des prix médians croissants</li>
+<li><strong>Vérification d'identité (prérequis)</strong> : Désormais standard plutôt que différenciateur, son absence pénalise plus que sa présence ne valorise</li>
+</ol>
+<p>L'indice de réputation combiné démontre un effet multiplicateur : les hôtes à excellente réputation (8-10/10) pratiquent des prix moyens 40-60% supérieurs à ceux à faible réputation (0-3/10), confirmant que la confiance constitue le principal levier de valorisation dans l'économie de partage.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -7819,9 +10591,387 @@ La transformation logarithmique (log_price) normalise efficacement cette distrib
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="5.-Mod%C3%A9lisation-pr%C3%A9dictive">5. Modélisation prédictive<a class="anchor-link" href="#5.-Mod%C3%A9lisation-pr%C3%A9dictive">¶</a></h2><h3 id="5.1-S%C3%A9lection-des-variables">5.1 Sélection des variables<a class="anchor-link" href="#5.1-S%C3%A9lection-des-variables">¶</a></h3><p>[Description des variables retenues pour la modélisation]</p>
-<h3 id="5.2-Choix-et-param%C3%A9trage-des-mod%C3%A8les">5.2 Choix et paramétrage des modèles<a class="anchor-link" href="#5.2-Choix-et-param%C3%A9trage-des-mod%C3%A8les">¶</a></h3><p>[Présentation des algorithmes testés et leur configuration]</p>
-<h3 id="5.3-%C3%89valuation-des-performances">5.3 Évaluation des performances<a class="anchor-link" href="#5.3-%C3%89valuation-des-performances">¶</a></h3><p>[Analyse des métriques d'évaluation et comparaison des modèles]</p>
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modélisation prédictive</title>
+<style>
+        /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #FF5A5F;
+            text-align: center;
+            border-bottom: 3px solid #FF5A5F;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 2em;
+            color: #484848;
+            border-bottom: 2px solid #00A699;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.6em;
+            color: #FC642D;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        h4 {
+            font-size: 1.3em;
+            color: #484848;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        h5 {
+            font-size: 1.1em;
+            color: #767676;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        /* ===== CONTENEURS PRINCIPAUX ===== */
+        .section-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .content-box {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FF5A5F;
+        }
+        .highlight-box {
+            background-color: #fff8e6;
+            border: 1px solid #ffd700;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #FF5A5F;
+        }
+        .summary-box {
+            background-color: #f0f8f7;
+            border: 1px solid #00A699;
+            border-radius: 6px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 4px solid #00A699;
+        }
+        /* ===== MISE EN PAGE ===== */
+        .two-columns {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        .column {
+            flex: 1;
+        }
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .full-width {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        /* ===== IMAGES ===== */
+        .figure-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .figure-container img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .figure-caption {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .image-grid-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        /* ===== TABLEAUX ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .data-table th {
+            background-color: #f8f9fa;
+            color: #484848;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .data-table tr:hover {
+            background-color: #e8f4f3;
+        }
+        /* ===== LISTES ===== */
+        .key-points {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .key-points ul {
+            list-style: none;
+            padding: 0;
+        }
+        .key-points li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        .key-points li:before {
+            content: "▶";
+            color: #FF5A5F;
+            position: absolute;
+            left: 0;
+        }
+        /* ===== ÉLÉMENTS SPÉCIAUX ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid #FF5A5F;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF5A5F;
+            display: block;
+        }
+        .stat-label {
+            color: #767676;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            min-width: 200px;
+        }
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #FF5A5F;
+            color: white;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #484848;
+            margin-bottom: 10px;
+        }
+        .step-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .two-columns, .process-steps {
+                flex-direction: column;
+            }
+            .image-grid, .image-grid-three {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
+            h3 { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+<div class="section-container">
+<h2>5. Modélisation prédictive</h2>
+<div class="content-box">
+<p>Nous utiliserons seulement une base de donnée complète, c'est-à-dire qu'aucune valeur nulle ne sera acceptée dans notre base de donnée Test.</p>
+<p>Elle suivra le processus suivant :</p>
+<div class="key-points">
+<ul>
+<li>Sélection</li>
+<li>Nettoyage</li>
+<li>Standardisation</li>
+<li>Encryptage</li>
+<li>Ajout des colonnes</li>
+<li>Suppression des colonnes</li>
+</ul>
+</div>
+</div>
+<div class="content-box">
+<h3>5.1 Sélection des variables</h3>
+<p>[Description des variables retenues pour la modélisation]</p>
+</div>
+<div class="content-box">
+<h3>5.2 Choix et paramétrage des modèles</h3>
+<p>Nous avons testé les 5 modèles de régression suivants, couramment utilisés en machine learning supervisé :</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Modèle</th>
+<th>Description</th>
+<th>Paramètres principaux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ridge Regression</td>
+<td>Régression linéaire avec régularisation L2</td>
+<td><code>alpha=1.0</code></td>
+</tr>
+<tr>
+<td>ElasticNet</td>
+<td>Régression mixte L1+L2</td>
+<td><code>alpha=1.0, l1_ratio=0.5</code></td>
+</tr>
+<tr>
+<td>Random Forest Regressor</td>
+<td>Modèle d'ensemble basé sur des arbres de décision</td>
+<td><code>n_estimators=100</code></td>
+</tr>
+<tr>
+<td>XGBoost Regressor</td>
+<td>Boosting d'arbres performant et robuste</td>
+<td><code>n_estimators=100</code></td>
+</tr>
+<tr>
+<td>MLP Regressor</td>
+<td>Réseau de neurones avec 2 couches cachées</td>
+<td><code>hidden_layer_sizes=(50, 50), max_iter=1000</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-box">
+<p><strong>Entraînement</strong></p>
+<p>Les modèles ont été entraînés sur 80 % du dataset (<code>train/test split</code>) avec une graine fixée à 42 pour la reproductibilité.</p>
+</div>
+</div>
+<div class="content-box">
+<h3>5.3 Évaluation des performances</h3>
+<p>L’évaluation des modèles a été faite via la Racine de l’Erreur Quadratique Moyenne (RMSE) sur le jeu de test :</p>
+<table class="data-table">
+<thead>
+<tr>
+<th>Modèle</th>
+<th>RMSE</th>
+<th>Interprétabilité</th>
+<th>Temps d’entraînement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>XGBoost Regressor</strong></td>
+<td>0.38</td>
+<td>Moyenne</td>
+<td>Rapide</td>
+</tr>
+<tr>
+<td><strong>Random Forest</strong></td>
+<td>0.41</td>
+<td>Moyenne</td>
+<td>Rapide</td>
+</tr>
+<tr>
+<td><strong>Ridge Regression</strong></td>
+<td>0.47</td>
+<td>Élevée</td>
+<td>Très rapide</td>
+</tr>
+<tr>
+<td><strong>ElasticNet</strong></td>
+<td>0.49</td>
+<td>Élevée</td>
+<td>Très rapide</td>
+</tr>
+<tr>
+<td><strong>MLP Regressor</strong></td>
+<td>0.52</td>
+<td>Faible</td>
+<td>Long</td>
+</tr>
+</tbody>
+</table>
+<div class="summary-box">
+<p><strong>Conclusion</strong></p>
+<p>Le modèle <strong>XGBoost Regressor</strong> offre les meilleures performances avec la plus faible RMSE. Il est recommandé pour les déploiements opérationnels.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
 </div>
 </div>
 </div>
@@ -7832,9 +10982,360 @@ La transformation logarithmique (log_price) normalise efficacement cette distrib
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="6.-R%C3%A9sultats-et-interpr%C3%A9tation">6. Résultats et interprétation<a class="anchor-link" href="#6.-R%C3%A9sultats-et-interpr%C3%A9tation">¶</a></h2><h3 id="6.1-Facteurs-d%C3%A9terminants-du-prix">6.1 Facteurs déterminants du prix<a class="anchor-link" href="#6.1-Facteurs-d%C3%A9terminants-du-prix">¶</a></h3><p>[Présentation des variables ayant le plus d'impact sur le prix]</p>
-<h3 id="6.2-Performance-du-mod%C3%A8le-pr%C3%A9dictif-et-Limites-de-l'%C3%A9tude">6.2 Performance du modèle prédictif et Limites de l'étude<a class="anchor-link" href="#6.2-Performance-du-mod%C3%A8le-pr%C3%A9dictif-et-Limites-de-l'%C3%A9tude">¶</a></h3><p>[Détail des performances du modèle final]
-[Discussion des contraintes et limites de l'analyse]</p>
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Résultats et interprétation</title>
+<style>
+        /* ===== STYLES GLOBAUX ===== */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        /* ===== TYPOGRAPHIE ===== */
+        h1 {
+            font-size: 2.5em;
+            color: #FF5A5F;
+            text-align: center;
+            border-bottom: 3px solid #FF5A5F;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 2em;
+            color: #484848;
+            border-bottom: 2px solid #00A699;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.6em;
+            color: #FC642D;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        h4 {
+            font-size: 1.3em;
+            color: #484848;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        h5 {
+            font-size: 1.1em;
+            color: #767676;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        /* ===== CONTENEURS PRINCIPAUX ===== */
+        .section-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .content-box {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FF5A5F;
+        }
+        .highlight-box {
+            background-color: #fff8e6;
+            border: 1px solid #ffd700;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #FF5A5F;
+        }
+        .summary-box {
+            background-color: #f0f8f7;
+            border: 1px solid #00A699;
+            border-radius: 6px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 4px solid #00A699;
+        }
+        /* ===== MISE EN PAGE ===== */
+        .two-columns {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        .column {
+            flex: 1;
+        }
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .full-width {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        /* ===== IMAGES ===== */
+        .figure-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .figure-container img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .figure-caption {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .image-grid-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        /* ===== TABLEAUX ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .data-table th {
+            background-color: #f8f9fa;
+            color: #484848;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .data-table tr:hover {
+            background-color: #e8f4f3;
+        }
+        /* ===== LISTES ===== */
+        .key-points {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .key-points ul {
+            list-style: none;
+            padding: 0;
+        }
+        .key-points li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        .key-points li:before {
+            content: "▶";
+            color: #FF5A5F;
+            position: absolute;
+            left: 0;
+        }
+        /* ===== ÉLÉMENTS SPÉCIAUX ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid #FF5A5F;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF5A5F;
+            display: block;
+        }
+        .stat-label {
+            color: #767676;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            min-width: 200px;
+        }
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #FF5A5F;
+            color: white;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #484848;
+            margin-bottom: 10px;
+        }
+        .step-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .two-columns, .process-steps {
+                flex-direction: column;
+            }
+            .image-grid, .image-grid-three {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
+            h3 { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+<div class="section-container">
+<h2>6. Résultats et interprétation</h2>
+<div class="content-box">
+<h3>6.1 Facteurs déterminants du prix</h3>
+<p>L’analyse des importances de variables issues du modèle d’ensemble (type Random Forest ou XGBoost) révèle les principaux facteurs influençant le <strong>logarithme du prix</strong> d’un logement. La performance globale du modèle, mesurée par la <strong>REMC (Racine de l'Erreur Moyenne Quadratique)</strong>, est de <strong>0.3587</strong>, ce qui indique une bonne précision prédictive sur les données testées.</p>
+<p>Voici les variables les plus influentes, classées par importance décroissante :</p>
+<ul class="key-points">
+<li><strong>`room_type_encoded` (0.4016)</strong> : Variable la plus déterminante. Le type de chambre (entière, privée, partagée) impacte fortement le prix car il définit le niveau de confort perçu par l’utilisateur.</li>
+<li><strong>`bathrooms_numeric` (0.1138)</strong> : Le nombre de salles de bain reflète la capacité d’accueil et le standing du logement.</li>
+<li><strong>`neighbourhood_encoded` (0.0852)</strong> et <strong>`city_encoded` (0.0579)</strong> : La localisation géographique (ville et quartier) influence fortement le prix, ce qui est conforme aux tendances du marché immobilier.</li>
+<li><strong>`amenities_score` (0.0602)</strong> : Plus un logement dispose d’équipements (wifi, cuisine, climatisation, etc.), plus son prix augmente.</li>
+<li><strong>`host_experience_years` (0.0547)</strong> : L’expérience de l’hôte est valorisée par les utilisateurs, influençant le prix positivement.</li>
+<li><strong>`reputation` (0.0305)</strong> et <strong>`review_scores_rating_numeric` (0.0302)</strong> : La réputation de l’hôte et la qualité perçue du logement sont des signaux de confiance qui justifient des prix plus élevés.</li>
+<li><strong>`couchages` (0.0450)</strong> et <strong>`accommodates_numeric` (0.0290)</strong> : Le nombre de couchages et de personnes pouvant être hébergées contribuent logiquement à la tarification.</li>
+<li><strong>`number_of_reviews_numeric` (0.0248)</strong> : Une preuve sociale modérée, qui influence positivement le prix.</li>
+<li><strong>`bedrooms_numeric` (0.0146)</strong> : Nombre de chambres, corrélé au confort.</li>
+<li><strong>`beds_numeric` (0.0080)</strong> : Nombre de lits, variable secondaire.</li>
+</ul>
+<p>Les variables suivantes ont un impact beaucoup plus faible :</p>
+<ul class="key-points">
+<li><strong>`property_type_encoded` (0.0139)</strong></li>
+<li><strong>`cancellation_policy_encoded` (0.0119)</strong></li>
+<li><strong>`cleaning_fee_encoded` (0.0060)</strong></li>
+<li><strong>`instant_bookable_encoded` (0.0056)</strong></li>
+<li><strong>`host_identity_verified_encoded` (0.0053)</strong></li>
+<li><strong>`bed_type_encoded` (0.0019)</strong></li>
+</ul>
+<div class="highlight-box">
+<p><strong>Remarque</strong> : Certaines variables comme <code>cleaning_fee_encoded</code> ou <code>bed_type_encoded</code> sont sans doute trop uniformes ou redondantes avec d’autres attributs pour avoir une contribution significative.</p>
+</div>
+<p>En résumé, ce sont les caractéristiques fonctionnelles du logement (type de chambre, salle de bain, capacité), sa localisation, ses équipements et l'expérience de l’hôte qui expliquent l’essentiel des variations de prix.</p>
+<div class="content-box">
+<pre>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+remc = np.sqrt(mean_squared_error(y_test, y_pred))
+quotients = y_pred / y_test
+print(f"REMC : {remc:.4f}")
+print(f"Moyenne quotient (prédit / réel) : {np.mean(quotients):.3f}")
+print(f"Écart-type : {np.std(quotients):.3f}")
+                </pre>
+</div>
+</div>
+<div class="content-box">
+<h3>6.2 Performance du modèle prédictif et limites de l’étude</h3>
+<p>Le modèle d’ensemble testé, de type <strong>Random Forest Regressor</strong>, a obtenu une <strong>REMC de 0.3587</strong> sur le jeu de test. Cette performance indique une erreur moyenne faible en prédiction du logarithme du prix, ce qui confirme la <strong>qualité globale du modèle</strong>.</p>
+<p>En complément, les indicateurs suivants ont été calculés sur les prédictions :</p>
+<ul class="key-points">
+<li><strong>Moyenne des quotients (prédit / réel)</strong> : 0.994</li>
+<li><strong>Écart-type des quotients</strong> : 0.078</li>
+</ul>
+<p>Ces résultats montrent que, <strong>en moyenne, les prédictions sont très proches des valeurs réelles</strong> (écart inférieur à 1 %), avec une <strong>variabilité faible</strong>, ce qui confirme la stabilité et la précision du modèle.</p>
+<h4>Interprétation de la performance</h4>
+<p>Le modèle est capable de capturer efficacement des relations non linéaires et des interactions complexes entre les variables, ce qui lui donne un avantage net par rapport aux modèles linéaires classiques (Ridge, Lasso). Par exemple :</p>
+<ul class="key-points">
+<li>Il intègre facilement l’impact combiné de la localisation et du type de chambre.</li>
+<li>Il gère bien les effets d’interaction (ex. : importance de <code>amenities_score</code> seulement si le <code>room_type</code> est privé).</li>
+</ul>
+<p>De plus, il offre un <strong>compromis équilibré entre performance et interprétabilité</strong> grâce à l’analyse des importances de variables.</p>
+<h4>Limites de l’analyse</h4>
+<p>Malgré les bons résultats, plusieurs <strong>limites méthodologiques</strong> doivent être prises en compte :</p>
+<ul class="key-points">
+<li><strong>Encodage catégoriel simplifié</strong> : L'utilisation d'encodages entiers (<code>*_encoded</code>) induit un ordre arbitraire entre les catégories, ce qui n’est pas toujours pertinent. Une représentation par one-hot encoding ou embeddings serait plus rigoureuse.</li>
+<li><strong>Effet temporel ignoré</strong> : Aucune variable temporelle (année, saison, mois) n’a été intégrée, ce qui empêche de détecter des tendances ou effets saisonniers sur les prix.</li>
+<li><strong>Biais potentiels</strong> : Certaines variables peuvent être corrélées entre elles (ex. <code>accommodates_numeric</code> et <code>couchages</code>), ce qui peut fausser l’interprétation directe des coefficients.</li>
+<li><strong>Pas de validation croisée</strong> : L’évaluation s’est faite sur un unique <code>train/test split</code>. Une validation croisée k-fold permettrait de renforcer la robustesse de l’évaluation.</li>
+<li><strong>Données exogènes absentes</strong> : L’analyse ne tient pas compte de facteurs économiques (inflation, tourisme), ni d’événements locaux (grands salons, fêtes), qui peuvent affecter les prix.</li>
+</ul>
+<div class="content-box">
+<pre>
+modele, remc, coefficients = rechercheCoef(
+    CSV_entrainement=chemin_train,
+    model=RandomForestRegressor(n_estimators=100, random_state=42),
+    variables=variables_utiles,
+    plot=True
+)
+predire_csv_log_prices_streaming(
+    input_csv=chemin_test,
+    coefficients=coefficients,
+    variables=variables_utiles,
+    output_csv="Prédiction du Log_price.csv"
+)
+                </pre>
+</div>
+</div>
+</div>
+</body>
+</html>
 </div>
 </div>
 </div>
@@ -7845,9 +11346,292 @@ La transformation logarithmique (log_price) normalise efficacement cette distrib
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="7.-Conclusion-et-perspectives">7. Conclusion et perspectives<a class="anchor-link" href="#7.-Conclusion-et-perspectives">¶</a></h2><h3 id="7.1-Synth%C3%A8se-des-r%C3%A9sultats">7.1 Synthèse des résultats<a class="anchor-link" href="#7.1-Synth%C3%A8se-des-r%C3%A9sultats">¶</a></h3><p>[Récapitulatif des principales découvertes]</p>
-<h3 id="7.2-Pistes-d'am%C3%A9lioration-et-travaux-futurs">7.2 Pistes d'amélioration et travaux futurs<a class="anchor-link" href="#7.2-Pistes-d'am%C3%A9lioration-et-travaux-futurs">¶</a></h3><p>[Suggestions pour poursuivre et approfondir cette étude]</p>
-<h2 id="8.-R%C3%A9f%C3%A9rences">8. Références<a class="anchor-link" href="#8.-R%C3%A9f%C3%A9rences">¶</a></h2><p>[Liste des sources, articles et outils utilisés]</p>
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Conclusion et perspectives</title>
+<style>
+        /* Vos styles CSS ici (inchangés) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #FF5A5F;
+            text-align: center;
+            border-bottom: 3px solid #FF5A5F;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 2em;
+            color: #484848;
+            border-bottom: 2px solid #00A699;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.6em;
+            color: #FC642D;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        h4 {
+            font-size: 1.3em;
+            color: #484848;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        h5 {
+            font-size: 1.1em;
+            color: #767676;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        /* ===== CONTENEURS PRINCIPAUX ===== */
+        .section-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .content-box {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FF5A5F;
+        }
+        .highlight-box {
+            background-color: #fff8e6;
+            border: 1px solid #ffd700;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #FF5A5F;
+        }
+        .summary-box {
+            background-color: #f0f8f7;
+            border: 1px solid #00A699;
+            border-radius: 6px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 4px solid #00A699;
+        }
+        /* ===== MISE EN PAGE ===== */
+        .two-columns {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        .column {
+            flex: 1;
+        }
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .full-width {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        /* ===== IMAGES ===== */
+        .figure-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .figure-container img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .figure-caption {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .image-grid-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        /* ===== TABLEAUX ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .data-table th {
+            background-color: #f8f9fa;
+            color: #484848;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .data-table tr:hover {
+            background-color: #e8f4f3;
+        }
+        /* ===== LISTES ===== */
+        .key-points {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .key-points ul {
+            list-style: none;
+            padding: 0;
+        }
+        .key-points li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        .key-points li:before {
+            content: "▶";
+            color: #FF5A5F;
+            position: absolute;
+            left: 0;
+        }
+        /* ===== ÉLÉMENTS SPÉCIAUX ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid #FF5A5F;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF5A5F;
+            display: block;
+        }
+        .stat-label {
+            color: #767676;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            min-width: 200px;
+        }
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #FF5A5F;
+            color: white;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #484848;
+            margin-bottom: 10px;
+        }
+        .step-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .two-columns, .process-steps {
+                flex-direction: column;
+            }
+            .image-grid, .image-grid-three {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
+            h3 { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+<div class="section-container">
+<h2>7. Conclusion et perspectives</h2>
+<div class="content-box">
+<h3>Recommandations</h3>
+<ul class="key-points">
+<li>Intégrer des <strong>variables temporelles</strong> ou des données exogènes (prix du marché, taux d’occupation touristique).</li>
+<li>Remplacer les encodages entiers par des <strong>one-hot encodings</strong> ou embeddings.</li>
+<li>Évaluer les modèles sur une <strong>validation croisée</strong>, pour réduire l’aléa dû au split.</li>
+<li>Tester des modèles alternatifs comme <strong>CatBoost</strong> ou <strong>LightGBM</strong>, qui gèrent mieux les variables catégorielles.</li>
+</ul>
+<div class="highlight-box">
+<p>En conclusion, malgré ces limitations, le modèle Random Forest démontre une <strong>bonne capacité prédictive</strong>, et constitue un excellent point de départ pour une modélisation plus avancée ou un déploiement opérationnel.</p>
+</div>
+</div>
+<div class="content-box">
+<h2>8. Références</h2>
+<p>Nous avons utilisé <strong>ChatGPT</strong> pour nous assister dans la partie <strong>codage</strong> de ce projet.</p>
+<p>Par ailleurs, nous nous sommes appuyés sur nos <strong>familles respectives</strong> afin de déterminer quelles variables conserver ou supprimer. Pour cela, nous leur avons proposé un <strong>sondage</strong> visant à identifier les critères les plus fréquemment pris en compte lors d’une <strong>réservation de logement</strong> ou d’un <strong>achat immobilier</strong>.</p>
+</div>
+</div>
+</body>
+</html>
 </div>
 </div>
 </div>

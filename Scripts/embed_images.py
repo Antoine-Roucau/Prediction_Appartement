@@ -117,7 +117,7 @@ def embed_images_in_html(html_file, project_root=None):
 if __name__ == "__main__":
     try:
         # Chemin direct vers le rapport HTML
-        html_file = "Data\\Visual\\picture\\rapportV3.html"
+        html_file = "Data\\Visual\\picture\\rapport.html"
         
         # Si un argument est passé en ligne de commande, l'utiliser comme chemin du fichier HTML
         if len(sys.argv) > 1:
