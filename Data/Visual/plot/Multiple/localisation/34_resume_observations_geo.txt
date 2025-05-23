@@ -1,0 +1,23 @@
+=== RÉSUMÉ DES OBSERVATIONS SUR L'IMPACT GÉOGRAPHIQUE ===
+
+Impact des villes (log_price moyen):
+- SF: 5.1201
+- Boston: 4.8553
+- DC: 4.7882
+- LA: 4.7420
+- NYC: 4.7166
+- Chicago: 4.6161
+
+Variabilité des prix par ville (écart-type log_price):
+- LA: 0.6828
+- Chicago: 0.6684
+- Boston: 0.6418
+- DC: 0.6396
+- NYC: 0.6335
+- SF: 0.6176
+
+Correélation latitude-prix: -0.0297
+Corrélation longitude-prix: -0.0864
+
+Nombre total de quartiers analysés: 523
+Nombre de villes: 6

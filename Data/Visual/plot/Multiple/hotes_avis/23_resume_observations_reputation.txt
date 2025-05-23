@@ -1,0 +1,23 @@
+=== RÉSUMÉ DES OBSERVATIONS SUR L'IMPACT DE LA RÉPUTATION ===
+
+Corrélation avec log_price (facteurs de réputation):
+- price: 0.8621
+- review_scores_rating: 0.0939
+- host_experience_years: 0.0826
+- reputation_index: 0.0737
+- number_of_reviews: -0.0203
+
+Prix moyen par niveau de réputation:
+- Faible (0-3): $125.61
+- Modérée (3-6): $140.57
+- Bonne (6-8): $154.80
+- Excellente (8-10): $146.78
+
+Impacts comparatifs (% de différence de prix):
+- Vérification identité: +9.6%
+- Nombre d'avis (50+ vs 0): -13.6%
+- Score (excellent vs faible): +20.7%
+- Réputation globale (excellente vs faible): +16.9%
+
+Nombre total d'hôtes analysés: 15600
+Indice de réputation moyen: 6.95/10
