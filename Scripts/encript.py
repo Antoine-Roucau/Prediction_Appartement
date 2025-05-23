@@ -387,9 +387,9 @@ def create_model_ready_dataset(df_encoded):
 
 def main():
     """Fonction principale"""
-    input_file = "Data/Clean/train_partial_clean_standart.csv"
-    output_file_full = "Data/Clean/train_encoded_full.csv"
-    output_file_model = "Data/Clean/train_model_ready.csv"
+    input_file = "Data/Clean/test_partial_clean_standart.csv"
+    output_file_full = "Data/Clean/test_encoded_full.csv"
+    output_file_model = "Data/Clean/test_model_ready.csv"
     
     try:
         # Charger les données

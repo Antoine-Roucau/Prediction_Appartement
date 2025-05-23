@@ -64,7 +64,7 @@ def remove_coordinates_columns(file_path):
 
 def main():
     """Fonction principale"""
-    file_path = "Data/Clean/train_final_model.csv"
+    file_path = "Data/Clean/test_final_model.csv"
     
     # Vérifier l'existence du fichier
     if not os.path.exists(file_path):
