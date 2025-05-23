@@ -1,16 +1,13 @@
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-import matplotlib.pyplot as plt
-
 def rechercheCoef(CSV_entrainement, model, variables=None, target='log_price', plot=False):
     df = pd.read_csv(CSV_entrainement)
 
-    # Sélection automatique des variables numériques si non spécifiées
+    # Colonnes à exclure même si numériques
+    exclude = ['id', target, 'localisation']
+
+    # Sélection automatique des colonnes numériques pertinentes
     if variables is None:
         variables = df.select_dtypes(include=np.number).columns.tolist()
-        variables = [v for v in variables if v != target]
+        variables = [v for v in variables if v not in exclude]
 
     # Nettoyage des données
     df_clean = df.dropna(subset=variables + [target])
@@ -20,7 +17,7 @@ def rechercheCoef(CSV_entrainement, model, variables=None, target='log_price', p
     # Split train/test
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Entraînement
+    # Entraînement du modèle
     model.fit(X_train, y_train)
 
     # Prédiction
