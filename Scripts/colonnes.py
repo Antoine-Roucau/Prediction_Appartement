@@ -242,9 +242,9 @@ def create_enhanced_model_dataset(df):
 def main():
     """Fonction principale"""
     # Fichiers d'entrée et sortie
-    input_file = "Data/Clean/train_model_ready.csv"  # Fichier encodé
-    output_file_enhanced = "Data/Clean/train_enhanced.csv"
-    output_file_final = "Data/Clean/train_final_model.csv"
+    input_file = "Data/Clean/test_model_ready.csv"  # Fichier encodé
+    output_file_enhanced = "Data/Clean/test_enhanced.csv"
+    output_file_final = "Data/Clean/test_final_model.csv"
     
     try:
         # Charger les données encodées

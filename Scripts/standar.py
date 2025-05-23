@@ -22,7 +22,7 @@ def standardize_property_types(input_file_path, output_file_path):
         return None
 
 if __name__ == "__main__":
-    input_file = "Data/Clean/train_partial_clean.csv"  # CSV original
-    output_file = "Data/Clean/train_partial_clean_standart.csv"  # CSV clean
+    input_file = "Data/Clean/test_partial_clean.csv"  # CSV original
+    output_file = "Data/Clean/test_partial_clean_standart.csv"  # CSV clean
     
     df_modified = standardize_property_types(input_file, output_file)

@@ -28,8 +28,8 @@ def select_columns(input_file_path, output_file_path, columns_to_keep):
         return None
 
 if __name__ == "__main__":
-    input_file = "Data/Original/airbnb_train.csv"  # CSV original
-    output_file = "Data/Clean/train_partial.csv"  # CSV nettoyé
+    input_file = "Data/Original/airbnb_test.csv"  # CSV original
+    output_file = "Data/Clean/test_partial.csv"  # CSV nettoyé
     
     df_cleaned = select_columns(input_file, output_file, selected_columns)
 

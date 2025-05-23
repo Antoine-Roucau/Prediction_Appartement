@@ -17,7 +17,7 @@ def remove_incomplete_listings(input_file_path, output_file_path, critical_colum
         return None
 
 if __name__ == "__main__":
-    input_file = "Data/Clean/train_partial.csv"  # CSV original
-    output_file = "Data/Clean/train_partial_clean.csv"  # CSV nettoyé
+    input_file = "Data/Clean/test_partial.csv"  # CSV original
+    output_file = "Data/Clean/test_partial_clean.csv"  # CSV nettoyé
     
     df_complete = remove_incomplete_listings(input_file, output_file)
